@@ -44,6 +44,7 @@ function calculateGWA() {
 
     let totalWeighted = 0;
     let totalUnits = 0;
+    let totalPercentWeighted = 0;
 
     for (let i = 0; i < mids.length; i++) {
         const midRaw = parseFloat(mids[i].value);
@@ -52,7 +53,6 @@ function calculateGWA() {
 
         if (isNaN(midRaw) || isNaN(finRaw) || isNaN(u)) continue;
 
-        // Clamp values between 0 and 100
         const mid = Math.min(100, Math.max(0, midRaw));
         const fin = Math.min(100, Math.max(0, finRaw));
 
@@ -74,11 +74,14 @@ function calculateGWA() {
         badges[i].appendChild(percentDisplay);
 
         totalWeighted += numerical * u;
+        totalPercentWeighted += finalGradePercent * u;
         totalUnits += u;
     }
 
     const gwa = totalUnits > 0 ? (totalWeighted / totalUnits).toFixed(4) : "--";
-    document.getElementById("result").textContent = `GWA: ${gwa}`;
+    const weightedPercent = totalUnits > 0 ? (totalPercentWeighted / totalUnits).toFixed(2) : "--";
+
+    document.getElementById("result").textContent = `GWA: ${gwa} (Final %: ${weightedPercent}%)`;
 }
 
 /* ------------------ THEME ------------------ */
