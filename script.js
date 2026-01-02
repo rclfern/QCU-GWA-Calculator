@@ -5,9 +5,9 @@ function addSubject() {
     div.className = "subject";
 
     div.innerHTML = `
-        <input type="number" placeholder="Midterm %" step="0.01" class="mid">
-        <input type="number" placeholder="Final %" step="0.01" class="final">
-        <input type="number" placeholder="Units" class="units">
+        <input type="number" placeholder="Midterm %" step="0.01" class="mid" min="0" max="100">
+        <input type="number" placeholder="Final %" step="0.01" class="final" min="0" max="100">
+        <input type="number" placeholder="Units" class="units" min="0">
 
         <div class="badge-container"></div>
 
@@ -46,22 +46,32 @@ function calculateGWA() {
     let totalUnits = 0;
 
     for (let i = 0; i < mids.length; i++) {
-        const mid = parseFloat(mids[i].value);
-        const fin = parseFloat(finals[i].value);
+        const midRaw = parseFloat(mids[i].value);
+        const finRaw = parseFloat(finals[i].value);
         const u = parseFloat(units[i].value);
 
-        if (isNaN(mid) || isNaN(fin) || isNaN(u)) continue;
+        if (isNaN(midRaw) || isNaN(finRaw) || isNaN(u)) continue;
+
+        // Clamp values between 0 and 100
+        const mid = Math.min(100, Math.max(0, midRaw));
+        const fin = Math.min(100, Math.max(0, finRaw));
 
         const finalGradePercent = (mid * 0.5) + (fin * 0.5);
         const numerical = convertToGrade(finalGradePercent);
 
-        // badge
         badges[i].innerHTML = "";
+
         const badge = document.createElement("div");
         badge.className = "badge";
         badge.style.background = numerical <= 3.0 ? "var(--pass)" : "var(--fail)";
         badge.textContent = numerical <= 3.0 ? "Passed ✓" : "Failed ✗";
+
+        const percentDisplay = document.createElement("span");
+        percentDisplay.style.marginLeft = "8px";
+        percentDisplay.textContent = `(${finalGradePercent.toFixed(2)}%)`;
+
         badges[i].appendChild(badge);
+        badges[i].appendChild(percentDisplay);
 
         totalWeighted += numerical * u;
         totalUnits += u;
