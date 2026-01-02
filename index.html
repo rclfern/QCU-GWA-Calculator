@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYUSIYU Online GWA Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <h1>KYUSIYU Online GWA Calculator</h1>
+        <button id="themeToggle" onclick="toggleTheme()">🌙</button>
+    </div>
+
+    <div class="container">
+        <p class="subtitle">Add your course / subjects below:</p>
+
+        <div id="subjects"></div>
+
+        <button class="add-btn" onclick="addSubject()">+ Add course / Subject</button>
+
+        <h2 id="result">GWA: --</h2>
+        <button class="calc-btn" onclick="calculateGWA()">Calculate GWA</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
